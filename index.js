@@ -6,14 +6,16 @@ module.exports = Value;
 
 /* --------------------------------- Get Value Module  --------------------------------- */
 
-function Value( value ) {
+function Value( value, properties ) {
 
-	if ( !( this instanceof Value ) ) return new Value( value );
+	if ( !( this instanceof Value ) ) return new Value( value, properties );
 
-	this._value = value;
+	this.__value = value;
+
+	if ( properties ) for ( var i in properties ) this[ i ] = properties[ i ];
 }
 
 Object.defineProperties( Value.prototype, {
 
-	valueOf: { value: function () { return this._value } }
+	valueOf: { value: function () { return this.__value } }
 });
