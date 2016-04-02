@@ -17,5 +17,7 @@ function Value( value, properties ) {
 
 Object.defineProperties( Value.prototype, {
 
-	valueOf: { value: function () { return this.__value } }
+	valueOf: { value: function () { return this.__value } },
+
+	set: { value: function ( newValue ) { this.__value = newValue } }
 });
