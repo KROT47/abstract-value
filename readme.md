@@ -1,6 +1,6 @@
 # Abstract-Value
 
-Is used as helper to define any kind of value as abstract value type.\
+Is used as helper to define any kind of value as abstract value type.  
 Also allows to add any properties to values, even to String and Number.
 
 
