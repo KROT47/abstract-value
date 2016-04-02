@@ -1,6 +1,6 @@
 {
   "name": "abstract-value",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Basic value abstraction of any kind",
   "main": "index.js",
   "scripts": {
