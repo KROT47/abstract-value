@@ -1,0 +1,19 @@
+{
+  "name": "abstract-value",
+  "version": "1.0.0",
+  "description": "Basic value abstraction of any kind",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KROT47/abstract-value.git"
+  },
+  "author": "KROT47",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KROT47/abstract-value/issues"
+  },
+  "homepage": "https://github.com/KROT47/abstract-value#readme"
+}
