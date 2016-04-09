@@ -36,3 +36,20 @@ Output:
 "456"
 Array [123, 789]
 ```
+
+Also you can chain some methods ( "set", "setProperties" ):
+
+```js
+const Value = require( 'abstract-value' );
+
+var val = Value( 123 );
+
+console.log( val );
+console.log( val.set( 124 ).valueOf() );
+console.log( val.setProperties({ t: 1 }).t );
+
+Output:
+AbstractValue {__value: 123}
+124
+1
+```

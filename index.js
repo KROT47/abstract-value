@@ -1,23 +1,47 @@
 
 /* --------------------------------- Module Exports --------------------------------- */
 
-module.exports = Value;
+module.exports = AbstractValue;
 
 
-/* --------------------------------- Get Value Module  --------------------------------- */
+/* --------------------------------- AbstractValue --------------------------------- */
 
-function Value( value, properties ) {
+function AbstractValue( value, properties ) {
 
-	if ( !( this instanceof Value ) ) return new Value( value, properties );
+	if ( value instanceof AbstractValue ) {
+		// get all properties from old value
+		var	oldProperties = {}, i;
+		for ( i in value ) oldProperties[ i ] = value[ i ];
 
-	this.__value = value;
+		// generate new value from old one
+		var newAbstractValue = AbstractValue( value.valueOf(), oldProperties );
 
-	if ( properties ) for ( var i in properties ) this[ i ] = properties[ i ];
+		// update properties if defined and return new abstract value
+		return newAbstractValue.setProperties( properties );
+	}
+
+	if ( !( this instanceof AbstractValue ) ) return new AbstractValue( value, properties );
+	
+	Object.defineProperty( this, '__value', { value: value, enumerable: false, writable: true } );
+
+	this.setProperties( properties );
 }
 
-Object.defineProperties( Value.prototype, {
 
-	valueOf: { value: function () { return this.__value } },
+/* --------------------------------- AbstractValue Prototype --------------------------------- */
 
-	set: { value: function ( newValue ) { this.__value = newValue } }
+Object.defineProperties( AbstractValue.prototype, {
+
+	set: { value: function ( newValue ) { this.__value = newValue; return this } },
+
+	setProperties: {
+		value: function ( properties ) {
+			if ( properties ) for ( var i in properties ) this[ i ] = properties[ i ];
+
+			return this;
+		}
+	},
+
+	valueOf: { value: function () { return this.__value } }
+
 });
