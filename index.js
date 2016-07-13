@@ -1,47 +1,70 @@
 
 /* --------------------------------- Module Exports --------------------------------- */
 
-module.exports = AbstractValue;
+module.exports = AbstractValueGenerator;
+
+
+/* --------------------------------- AbstractValue Generator --------------------------------- */
+
+/**
+ * Returns new abstract value constructor with defined className
+ * Allows using instanceof className instead of AbstractValue
+ * This prevents errors when using in multiple modules with different abstractions
+ * @param (String) className
+ * @return ({className constructor})
+ */
+function AbstractValueGenerator( className ) {
+
+    var AbstractValueConstructor =
+        	Function( 'return ' + AbstractValue.toString().replace( nameRegExp, className ) )();
+
+    setupPrototype( AbstractValueConstructor );
+
+    return AbstractValueConstructor;
+}
 
 
 /* --------------------------------- AbstractValue --------------------------------- */
 
 function AbstractValue( value, properties ) {
 
-	if ( value instanceof AbstractValue ) {
-		// get all properties from old value
-		var	oldProperties = {}, i;
-		for ( i in value ) oldProperties[ i ] = value[ i ];
+    if ( value instanceof AbstractValue ) {
+        return
+	        // clone abstract value getting all properties
+	        AbstractValue( value.valueOf(), Object.assign( {}, value ) )
+	            // update properties if defined and return new abstract value
+	            .setProperties( properties );
+    }
 
-		// generate new value from old one
-		var newAbstractValue = AbstractValue( value.valueOf(), oldProperties );
+    if ( !( this instanceof AbstractValue ) ) return new AbstractValue( value, properties );
 
-		// update properties if defined and return new abstract value
-		return newAbstractValue.setProperties( properties );
-	}
+    Object.defineProperty( this, '__value', { value: value, enumerable: false, writable: true } );
 
-	if ( !( this instanceof AbstractValue ) ) return new AbstractValue( value, properties );
-	
-	Object.defineProperty( this, '__value', { value: value, enumerable: false, writable: true } );
-
-	this.setProperties( properties );
+    this.setProperties( properties );
 }
 
 
 /* --------------------------------- AbstractValue Prototype --------------------------------- */
 
-Object.defineProperties( AbstractValue.prototype, {
+function setupPrototype( AbstractValueConstructor ) {
 
-	set: { value: function ( newValue ) { this.__value = newValue; return this } },
+    Object.defineProperties( AbstractValueConstructor.prototype, {
 
-	setProperties: {
-		value: function ( properties ) {
-			if ( properties ) for ( var i in properties ) this[ i ] = properties[ i ];
+        set: { value: function( newValue ) { this.__value = newValue; return this } },
 
-			return this;
-		}
-	},
+        setProperties: {
+            value: function( properties ) {
+                if ( properties ) Object.assign( this, properties );
 
-	valueOf: { value: function () { return this.__value } }
+                return this;
+            }
+        },
 
-});
+        valueOf: { value: function() { return this.__value } }
+    });
+}
+
+
+/* --------------------------------- Helpers --------------------------------- */
+
+const nameRegExp = /AbstractValue/g;

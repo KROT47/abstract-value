@@ -5,7 +5,7 @@ Also allows to add any properties to values, even to String and Number.
 
 
 ```js
-const Value = require( 'abstract-value' );
+const Value = require( 'abstract-value' )( 'Value' );
 
 var values = [
     123,
@@ -40,7 +40,7 @@ Array [123, 789]
 Also you can chain some methods ( "set", "setProperties" ):
 
 ```js
-const Value = require( 'abstract-value' );
+const Value = require( 'abstract-value' )( 'Value' );
 
 var val = Value( 123 );
 
@@ -49,7 +49,7 @@ console.log( val.set( 124 ).valueOf() );
 console.log( val.setProperties({ t: 1 }).t );
 
 Output:
-AbstractValue {__value: 123}
+Value {__value: 123}
 124
 1
 ```
