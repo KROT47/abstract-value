@@ -38,7 +38,11 @@ function AbstractValue( value, properties ) {
 
     if ( !( this instanceof AbstractValue ) ) return new AbstractValue( value, properties );
 
-    Object.defineProperty( this, '__value', { value: value, enumerable: false, writable: true } );
+    Object.defineProperty( this, '__value', {
+        value: value || {},
+        enumerable: false,
+        writable: true
+    });
 
     this.setProperties( properties );
 }
